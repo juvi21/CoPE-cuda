@@ -2,21 +2,24 @@ __pycache__/
 *.py[cod]
 src/__pycache__/
 
--*.so
+*.so
+*.dylib
+*.dll
 
--build/
+build/
 dist/
 *.egg-info/
 
--.pytest_cache/
+.pytest_cache/
 
--data/
+data/
 
--*.log
+*.log
 *.tmp
 
--src/cuda/*.o
+src/cuda/*.o
 src/cuda/*.obj
+src/cuda/*.so
 
--.DS_Store
+.DS_Store
 Thumbs.db
