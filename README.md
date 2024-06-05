@@ -30,7 +30,7 @@ python train_mmnist.py
 - Introduce a benchmark in order to optimize the kernel better
 - Make kernels faster
 - Implement the entire forward pass in CUDA
-- ~~Introduce `einops` just cause it's einops~~
+- ~~Introduce `einops` just cause it's einops~~ DONE
 - A very interesting idea was mentioned by https://www.youtube.com/@marinepower under https://www.youtube.com/watch?v=qcMsvU-wYZA by Gabriel Mongaras.
   > "Wonder if this method could be improved by having a new projection matrix of size [hidden_dim x 1] that computes the width of each token. We take the sigmoid, the cumulative sum, we do the interpolation as described, but we add it to the queries and keys, then do normal attention."
   - This requires a new (small) matrix but would allow us to use flash attention directly without needing a new CoPE kernel.
