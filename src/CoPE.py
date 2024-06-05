@@ -6,6 +6,8 @@ import flip
 import cumsum
 import flipcumsum
 
+from einops import einsum
+
 
 class CoPE(nn.Module):
     def __init__(self, npos_max, head_dim):
@@ -40,11 +42,12 @@ class SelfAttn(nn.Module):
 
     def forward(self, query, key, val, mask=None):
         # q, k, v have dimensions batch x seq_len x head_dim
-        attn_logits = torch.bmm(query, key.transpose(-1, -2))  # QK^T
+        attn_logits = einsum(query, key, 'b i d, b j d -> b i j')  # QK^T
         attn_logits = attn_logits / math.sqrt(self.head_dim)  # QK^T
         if mask is not None:
-            attn_logits = attn_logits.masked_fill(mask == 0, float('-inf')) # add positional encodings (CoPE)
+            attn_logits = attn_logits.masked_fill(mask == 0, float('-inf'))  # Add positional encodings (CoPE)
         attn_logits += self.cope(query, attn_logits)
         attn = torch.softmax(attn_logits, dim=-1)
-        out = torch.bmm(attn, val)
+        out = einsum(attn, val, 'b i j, b j d -> b i d')
         return out
+
